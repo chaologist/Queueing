@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Queueing", "Queueing\Queueing.fsproj", "{9E41AF91-37C1-47AD-A181-5A34C579841E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Queueing.RabbitMq", "Queueing.RabbitMq\Queueing.RabbitMq.fsproj", "{8833A3CD-8129-47BF-B644-A325485D14B9}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleTestHarness", "ConsoleTestHarness\ConsoleTestHarness.fsproj", "{EE0DC9F5-D39B-4516-9EAE-953DBC92269E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E41AF91-37C1-47AD-A181-5A34C579841E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E41AF91-37C1-47AD-A181-5A34C579841E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E41AF91-37C1-47AD-A181-5A34C579841E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E41AF91-37C1-47AD-A181-5A34C579841E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8833A3CD-8129-47BF-B644-A325485D14B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8833A3CD-8129-47BF-B644-A325485D14B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8833A3CD-8129-47BF-B644-A325485D14B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8833A3CD-8129-47BF-B644-A325485D14B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0DC9F5-D39B-4516-9EAE-953DBC92269E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0DC9F5-D39B-4516-9EAE-953DBC92269E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0DC9F5-D39B-4516-9EAE-953DBC92269E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0DC9F5-D39B-4516-9EAE-953DBC92269E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
