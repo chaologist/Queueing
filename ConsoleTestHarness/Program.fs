@@ -1,6 +1,7 @@
 ﻿open System
 open Queueing.Definitions
 open Queueing.RabbitMq
+open RabbitMqModelFactory
 
 [<EntryPoint>]
 let main argv =
@@ -10,8 +11,8 @@ let main argv =
     let routing2 = new OutboundRouting<string> ("rout2")
     let routing3 = new OutboundRouting<string> ("rout3")
     
-
-    let eneueuer = new RabbitMqEnqueuer<string>(msgService,xchange,[|routing1;routing2;routing3|]) :> Queueing.IEnqueuer<string>
+    let fact = new RabbitMqModelFactory(RabbitMqConnectionPool.GetConnectionFactory(msgService.HostName))
+    let eneueuer = new RabbitMqEnqueuer<string>((fun ()-> fact.Model),xchange,[|routing1;routing2;routing3|]) :> Queueing.IEnqueuer<string>
 
     eneueuer.Enqueue "this is my test"
     

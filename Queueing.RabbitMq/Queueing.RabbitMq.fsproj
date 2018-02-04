@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="RabbitMqModelFactory.fs" />
+    <Compile Include="RabbitMqConnectionPool.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="RabbitMqEnqueuer.fs" />
     <Compile Include="RabbitMqClient.fs" />
@@ -16,6 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Queueing\Queueing.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.3.3" />
   </ItemGroup>
 
 </Project>

@@ -16,9 +16,13 @@ type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker
     let disencodeAndDeserialize bytes =
         bytes |> disencode |> deserialize
     let deserializeMsg rawMsg=
-        {MessageId=rawMsg.MessageId; Body=rawMsg.Bytes |>disencodeAndDeserialize}        
+        {MessageId=rawMsg.MessageId; Body=rawMsg.Bytes |>disencodeAndDeserialize}     
+    let exceptionEvaluator = new ExceptionEvaluator.Evaluator()
 
     member this.Process(raw:byte[])=
+        let shouldRequeue()=
+            not ( exceptionEvaluator.Evaluate(raw))
+
         let flow() =
             let transformMessage msg=
                 let res=msg.Body|> transform
@@ -38,7 +42,7 @@ type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker
                 | Success (acknack)->
                     acknacker(acknack)
                 | Failure (err)->
-                    acknacker(Nack(false))
+                    acknacker(Nack(shouldRequeue()))
                     raise err
         flow ()
     

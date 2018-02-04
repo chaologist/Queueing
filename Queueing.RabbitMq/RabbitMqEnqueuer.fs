@@ -2,15 +2,12 @@
 open RabbitMQ.Client
 open Queueing
 open System
-type RabbitMqEnqueuer<'TMessage>(msgService:Definitions.MessageService,exchange:Definitions.Exchange,routings:seq<Definitions.OutboundRouting<'TMessage>>)  =
+open RabbitMqConnectionPool
+
+type RabbitMqEnqueuer<'TMessage>(modelFactory:unit->IModel,exchange:Definitions.Exchange,routings:seq<Definitions.OutboundRouting<'TMessage>>)  =
     inherit Queueing. BaseEnqueuer<'TMessage>()
 
-    let factory = new ConnectionFactory()
-    do
-        factory.HostName <- msgService.HostName
-    
-    let connection = lazy(factory.CreateConnection())
-    let channel = lazy(connection.Value.CreateModel())
+    let channel = lazy(modelFactory())
 
     override this.Enqueue (bytes:byte[])=
         channel.Value.ExchangeDeclare (exchange.Name,"topic",true)
@@ -25,6 +22,4 @@ type RabbitMqEnqueuer<'TMessage>(msgService:Definitions.MessageService,exchange:
         member this.Dispose() =
             if (channel.IsValueCreated) then
                 channel.Value.Dispose()
-            if (connection.IsValueCreated) then
-                connection.Value.Dispose()
             
