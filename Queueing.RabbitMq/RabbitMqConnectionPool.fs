@@ -6,6 +6,7 @@ let pool = new System.Collections.Concurrent.ConcurrentDictionary<string,IConnec
 let createConnectionFactory hn=
     let factory = new ConnectionFactory()
     factory.HostName <- hn
+    factory.AutomaticRecoveryEnabled <-true
     factory :> IConnectionFactory
 
 let GetConnection(hostName)=
