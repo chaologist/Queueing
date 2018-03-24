@@ -10,6 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Queueing.RabbitMq\Queueing.RabbitMq.fsproj" />
     <ProjectReference Include="..\Queueing\Queueing.fsproj" />
   </ItemGroup>

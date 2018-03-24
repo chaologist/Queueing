@@ -4,11 +4,9 @@ open RabbitMQ.Client.Events
 open Queueing
 open Queueing.Definitions
 open System
-open RabbitMqConnectionPool
 
-
-
-type RabbitMqClient<'TIn,'TOut> (msgService:Definitions.MessageService,exchange:Definitions.Exchange,def:QueueClientDefinition<'TIn,'TOut>) as this=
+//Implement the plumbing for RabbitMq, passing into a Queueing.QueueClientProcessor
+type RabbitMqClient<'TIn,'TOut> (msgService:Definitions.MessageService,exchange:Definitions.Exchange,def:QueueClientDefinition<'TIn,'TOut>) =
     let connection = RabbitMqConnectionPool.GetConnection(msgService.HostName)
     let channel = connection.CreateModel()
     let dec= channel.ExchangeDeclare(exchange.Name, "topic",true);

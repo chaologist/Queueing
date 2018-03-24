@@ -4,7 +4,16 @@ open Queueing.Definitions
 open Pipelines
 open Pipelines.Pipeline
 open Pipelines.Attempt
+
+type QueueClientSteps=
+    | Work =1
+
+
 type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker:AckNack->unit, transform:'TIn->'TOut)=
+    
+    let telemetrize step f  =
+        Telemetry.Sinks.Wrap [|Telemetry.ApplicationInsights.Sink.Sink; Telemetry.Log4Net.Sink.Sink|] step f
+    
     let unGlueMessageArrays (rawBytes:byte[])=
         let guid = new System.Guid(rawBytes |> Array.take 16)
         let rest = rawBytes |> Array.skip 16
@@ -31,7 +40,7 @@ type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker
                 outputEnqueuer.Enqueue(msg.Body,msg.MessageId)
                 Ack
             let p =pipeline {
-                let! msg = raw >?> unGlueMessageArrays
+                let! msg = raw >?> (telemetrize QueueClientSteps.Work unGlueMessageArrays)
                 let! dser = msg >?> deserializeMsg
                 let! processed = dser >?> transformMessage
                 let! enqueued = processed >?> enqueue
