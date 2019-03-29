@@ -28,6 +28,7 @@ type RabbitMqClient<'TIn,'TOut> (msgService:Definitions.MessageService,exchange:
         processor.Process ea.Body
         ()    
     do
+        channel.BasicQos(1u,1us,false)
         consumer.Received.Add handle_receive
         let s = channel.BasicConsume(def.InboundDefinition.Name,false,consumer)
         ()
