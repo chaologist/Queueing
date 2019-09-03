@@ -8,9 +8,10 @@ type RabbitMqEnqueuer<'TMessage>(modelFactory:unit->IModel,exchange:Definitions.
     inherit Queueing. BaseEnqueuer<'TMessage>()
 
     let channel = lazy(modelFactory())
+    let exch = lazy(channel.Value.ExchangeDeclare (exchange.Name,"topic",true))
 
     override this.Enqueue (bytes:byte[])=
-        channel.Value.ExchangeDeclare (exchange.Name,"topic",true)
+        let un = exch.Value
         channel.Value.BasicPublish (exchange.Name,String.concat "." (routings|>Seq.map (fun r->r.Routing)),null,bytes)
         ()
     override this.EnqueueAsync (msg)=

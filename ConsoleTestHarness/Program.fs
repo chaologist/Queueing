@@ -51,6 +51,8 @@ let main argv =
     use client5 = new RabbitMqClient<string,string> (msgService,xchange,clientDef5)
     use client6 = new RabbitMqClient<string,string> (msgService,xchange,clientDef6)
 
+    
+
     let d = System.Console.ReadLine()
     printfn "%A" argv
     0 // return an integer exit code
