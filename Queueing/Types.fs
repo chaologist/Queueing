@@ -1,8 +1,5 @@
 ﻿namespace Queueing.Definitions
     open System
-    type ExecutionDecision<'TOut> =
-        | DidNotExecute
-        | Executed of 'TOut
     type OutboundRouting<'TOut>(routing:string)=
         member public this.Routing = routing
 
@@ -10,7 +7,7 @@
         member public this.Name = name
         member public this.Routings = inboundRoutings
 
-    type QueueClientDefinition<'TIn,'TOut> (inboundDefinition:QueueDefinition<'TIn>,outboundRoutings:seq<OutboundRouting<'TOut>>, payload:('TIn->ExecutionDecision<'TOut>)) = 
+    type QueueClientDefinition<'TIn,'TOut> (inboundDefinition:QueueDefinition<'TIn>,outboundRoutings:seq<OutboundRouting<'TOut>>, payload:('TIn->'TOut[])) = 
         member public this.InboundDefinition = inboundDefinition
         member public this.OutboundRoutings = outboundRoutings 
         member public this.Payload = payload
