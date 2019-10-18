@@ -9,7 +9,7 @@ type QueueClientSteps=
     | Work =1
 
 
-type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker:AckNack->unit, transform:'TIn->'TOut[])=
+type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker:AckNack->unit, transform:'TIn->seq<'TOut>)=
     
     let telemetrize step f  =
         Telemetry.Sinks.Wrap [|Telemetry.ApplicationInsights.Sink.Sink; Telemetry.Log4Net.Sink.Sink|] step f
@@ -36,11 +36,11 @@ type QueueClientProcessor<'TIn,'TOut>(outputEnqueuer:IEnqueuer<'TOut>, acknacker
             let transformMessage msg=
                 msg.Body
                     |> transform 
-                    |> Array.map (fun r-> {MessageId = msg.MessageId;Body=r})
+                    |> Seq.map (fun r-> {MessageId = msg.MessageId;Body=r})
     
             let enqueue msgs =
-                let acks = msgs |>  Array.map (fun m-> outputEnqueuer.Enqueue(m.Body,m.MessageId))
-                Ack
+                msgs |> Seq.map (fun m-> outputEnqueuer.Enqueue(m.Body,m.MessageId))
+                     |> Seq.fold (fun s x-> s ) Ack
 
             let p =pipeline {
                 let! msg = raw >?> (telemetrize QueueClientSteps.Work unGlueMessageArrays)

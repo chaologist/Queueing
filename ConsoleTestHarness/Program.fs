@@ -30,7 +30,7 @@ let main argv =
 
     let work2 (label:string) t=
 //        System.Console.WriteLine(label)
-        [|System.DateTime.Now.ToLongTimeString()|]
+        [|System.DateTime.Now.ToLongTimeString()|] |> Seq.ofArray
         
 
     let work (x)=

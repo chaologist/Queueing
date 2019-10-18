@@ -7,7 +7,7 @@
         member public this.Name = name
         member public this.Routings = inboundRoutings
 
-    type QueueClientDefinition<'TIn,'TOut> (inboundDefinition:QueueDefinition<'TIn>,outboundRoutings:seq<OutboundRouting<'TOut>>, payload:('TIn->'TOut[])) = 
+    type QueueClientDefinition<'TIn,'TOut> (inboundDefinition:QueueDefinition<'TIn>,outboundRoutings:seq<OutboundRouting<'TOut>>, payload:('TIn->seq<'TOut>)) = 
         member public this.InboundDefinition = inboundDefinition
         member public this.OutboundRoutings = outboundRoutings 
         member public this.Payload = payload
